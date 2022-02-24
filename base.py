@@ -33,7 +33,6 @@ def assign_to_projects(contributors, projects):
     return project_assignments
     
 
-# contr = []
 with open('in/a_an_example.in.txt') as f:
     line = f.readline()
     c, p = line.split()
@@ -49,20 +48,19 @@ with open('in/a_an_example.in.txt') as f:
         for j in range(int(num_skills)):
             line = f.readline()
             skill_name, skill_level = line.split()
-            skills[skill_name] = skill_level
+            skills[skill_name] = float(skill_level)
         contr["skills"] = skills
         contrib_list.append(contr)
 
     for i in range(p):
         line = f.readline()
-        print(line)
         name, days, score, best_before, num_roles = line.split()
-        project = {"name": name, "days" : days, "score" : score, "best_before" : best_before}
+        project = {"name": name, "days" : float(days), "score" : float(score), "best_before" : float(best_before)}
         roles = []
         for j in range(int(num_roles)):
             line = f.readline()
             skill_name, skill_level = line.split()
-            roles.append((skill_name, skill_level))
+            roles.append((skill_name, float(skill_level)))
         project["roles"] = roles
         project_list.append(project)
 
