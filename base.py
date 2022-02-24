@@ -1,5 +1,37 @@
 import numpy as np
-from common import Contributor, Project
+# from common import Contributor, Project
+
+def assign_to_project(contributors, project):
+    assignments = []
+    active = [True for _ in contributors]
+
+    for role in project["roles"]:
+        success = False 
+
+        for i in range(len(contributors)):
+            contributor = contributors[i]
+            if not active[i]:
+                continue
+
+            name, level = role
+            skills = contributor["skills"]
+            if name in skills and skills[name] >= level:
+                assignments.append(contributor)
+                active[i] = False
+                success = True
+                break
+        
+        if not success:
+            return False, []
+                
+    return True, assignments
+
+def assign_to_projects(contributors, projects):
+    project_assignments = []
+    for project in projects:
+        project_assignments.append(assign_to_project(contributors, project))
+    return project_assignments
+    
 
 # contr = []
 with open('in/a_an_example.in.txt') as f:
@@ -34,4 +66,11 @@ with open('in/a_an_example.in.txt') as f:
         project["roles"] = roles
         project_list.append(project)
 
-    
+    project_assignments = assign_to_projects(contrib_list, project_list)
+    for project, assignment in zip(project_list, project_assignments):
+        success, people = assignment
+        if not success:
+            continue
+
+        print(project["name"])
+        print(" ".join([x["name"] for x in people]))
