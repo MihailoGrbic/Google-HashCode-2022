@@ -20,14 +20,17 @@ def has_intersection(cont1, cont2):
     return (len(set(cont1).intersection(cont2)) > 0)
 
 def simulate(assignments, projects):
+    # print("Simulating for: ")
+    # print(assignments)
+    
     graph = []
     
     # Generate graph
     for ass in assignments:
-        print("Formiram ", ass["name"])
+        # print("Formiram ", ass["name"])
         for project in projects:
             if ass["name"] == project["name"]:
-                print("Matchovao sam ", ass["name"])
+                # print("Matchovao sam ", ass["name"])
                 neighbors = []
                 for i in range(len(graph)):
                     if has_intersection(ass["contributors"], graph[i].contributors):
@@ -45,37 +48,37 @@ def simulate(assignments, projects):
                 break
     
     # Print graph
-    print("Ispisujem graf")
-    for node in graph:
-        print(node.name)
-        print(node.score)
-    print()
+    # print("Ispisujem graf")
+    # for node in graph:
+    #     print(node.name)
+    #     print(node.score)
+    # print()
 
     # Toposort
-    print("Toposort")
+    # print("Toposort")
     queue = []
     for node in graph:
-        print("indeg ", node.indeg)
+        # print("indeg ", node.indeg)
         if node.indeg == 0:
             node.start_time = 0
             queue.append(node)
 
-    print("queue ", len(queue))
-    print()
+    # print("queue ", len(queue))
+    # print()
 
     # Run projects
-    print("Run projects")
+    # print("Run projects")
     total_score =  0
     while len(queue) > 0:
         cur = queue[0]
         queue.pop(0)
-        print("Obradjujem ", cur.name)
+        # print("Obradjujem ", cur.name)
 
         cur.end_time = cur.start_time + cur.days - 1
         penalty = max(0, cur.end_time + 1 - cur.best_before)
         real_value = max(0, cur.score - penalty)
-        print("Posao ", cur.name, cur.start_time, cur.end_time)
-        print("Vredi", real_value)
+        # print("Posao ", cur.name, cur.start_time, cur.end_time)
+        # print("Vredi", real_value)
         total_score += real_value
         
         for next_idx in cur.reverse_edges:
@@ -89,6 +92,19 @@ def simulate(assignments, projects):
 
     return total_score
 
+def adapt_assignments(assignments):
+    ret = []
+    for ass in assignments:
+        name, people = ass
+        ret.append(
+            {
+                "name": name,
+                "contributors": [x["name"] for x in people]
+            }
+        )
+
+    return ret
+     
 
 if __name__ == "__main__":
     assignments = [
