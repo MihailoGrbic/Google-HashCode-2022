@@ -18,6 +18,11 @@ def assign_to_project(contributors, project):
     for x in assignments:
         x["availability"] = next_available
 
+    for assigned, role in zip(assignments, project["roles"]):
+        name, level = role
+        if assigned["skills"][name] <= level:
+            assigned["skills"][name] += 1
+
     return True, assignments
 
 def assign_to_projects(contributors, projects):
@@ -30,6 +35,4 @@ def assign_to_projects(contributors, projects):
         success, people = assign_to_project(contributors, project)
         if success:
             project_assignments.append((project["name"], people))
-        # print(" ".join([str(x["availability"]) for x in contributors]))
     return project_assignments
-    
