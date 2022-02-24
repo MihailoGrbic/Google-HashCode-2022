@@ -1,3 +1,7 @@
+# CodeBlocks files
+*.cbp
+*.layout
+
 # Prerequisites
 *.d
 
