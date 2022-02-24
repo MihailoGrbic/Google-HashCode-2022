@@ -1,5 +1,4 @@
 import numpy as np
-from common import Contributor, Project
 
 # contr = []
 with open('in/a_an_example.in.txt') as f:
@@ -23,7 +22,6 @@ with open('in/a_an_example.in.txt') as f:
 
     for i in range(p):
         line = f.readline()
-        print(line)
         name, days, score, best_before, num_roles = line.split()
         project = {"name": name, "days" : days, "score" : score, "best_before" : best_before}
         roles = []
@@ -34,4 +32,3 @@ with open('in/a_an_example.in.txt') as f:
         project["roles"] = roles
         project_list.append(project)
 
-    
