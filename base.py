@@ -1,39 +1,14 @@
 import numpy as np
-# from common import Contributor, Project
+from sort_projects import sort_projects
+from assign import assign_to_projects
 
-def assign_to_project(contributors, project):
-    assignments = []
-    active = [True for _ in contributors]
-
-    for role in project["roles"]:
-        success = False 
-
-        for i in range(len(contributors)):
-            contributor = contributors[i]
-            if not active[i]:
-                continue
-
-            name, level = role
-            skills = contributor["skills"]
-            if name in skills and skills[name] >= level:
-                assignments.append(contributor)
-                active[i] = False
-                success = True
-                break
-        
-        if not success:
-            return False, []
-                
-    return True, assignments
-
-def assign_to_projects(contributors, projects):
-    project_assignments = []
-    for project in projects:
-        project_assignments.append(assign_to_project(contributors, project))
-    return project_assignments
-    
-
-with open('in/a_an_example.in.txt') as f:
+#file_name = "a_an_example"
+#file_name = "b_better_start_small"
+#file_name = "c_collaboration"
+#file_name = "d_dense_schedule"
+#file_name = "e_exceptional_skills"
+file_name = "f_find_great_mentors"
+with open("in/" + file_name + ".in.txt") as f:
     line = f.readline()
     c, p = line.split()
     c, p = int(c), int(p)
@@ -64,11 +39,14 @@ with open('in/a_an_example.in.txt') as f:
         project["roles"] = roles
         project_list.append(project)
 
-    project_assignments = assign_to_projects(contrib_list, project_list)
-    for project, assignment in zip(project_list, project_assignments):
-        success, people = assignment
-        if not success:
-            continue
+project_list = sort_projects(project_list, contrib_list)
 
-        print(project["name"])
-        print(" ".join([x["name"] for x in people]))
+with open(file_name + ".txt", 'w') as f:  
+    project_assignments = assign_to_projects(contrib_list, project_list)
+
+    f.write(str(len(project_assignments)) + "\n")
+    for assignment in project_assignments:
+        name, people = assignment
+        
+        f.write(name + "\n")
+        f.write(" ".join([x["name"] for x in people]) + "\n")

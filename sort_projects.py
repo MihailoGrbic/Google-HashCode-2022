@@ -13,9 +13,10 @@ def sort_projects(projects, contributors):
         score_per_level_sum = project["score"] / level_sum
 
 
-        project["priority"] = score_per_day + score_per_bb + score_per_roles + \
-                            score_per_h_level + score_per_level_sum
-        project["priority"] = score_per_day * score_per_bb * score_per_roles * \
-                            score_per_h_level * score_per_level_sum
-
+        # project["priority"] = score_per_day + score_per_bb + score_per_roles + \
+        #                     score_per_h_level + score_per_level_sum
+        # project["priority"] = score_per_day * score_per_bb * score_per_roles * \
+        #                     score_per_h_level * score_per_level_sum
+        project["priority"] = score_per_day
+        
     return sorted(projects, key = lambda i: i['priority'], reverse=True)
