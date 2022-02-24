@@ -5,14 +5,18 @@ from assign import assign_to_projects
 #file_name = "a_an_example"
 #file_name = "b_better_start_small"
 #file_name = "c_collaboration"
-#file_name = "d_dense_schedule"
+file_name = "d_dense_schedule"
 #file_name = "e_exceptional_skills"
-file_name = "f_find_great_mentors"
+#file_name = "f_find_great_mentors"
+
+
 with open("in/" + file_name + ".in.txt") as f:
     line = f.readline()
     c, p = line.split()
     c, p = int(c), int(p)
 
+    print(c)
+    print(p)
     contrib_list = []
     project_list = []
     for i in range(c):
